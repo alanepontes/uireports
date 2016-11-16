@@ -18,31 +18,40 @@
 <hr>
 
 <div class="row">
-<% count = 0 %>  
+<% count = 0 %>
 <% @users.each do |user| %>
   <div class="col-md-4">
-  	<div class="well well-sm">
-      <div class="row"> 
+    <div class="well well-sm">
+      <div class="row">
+
         <div class="col-md-4 text-center">
-      		<% if user.avatar.exists? %>
+          <% if user.avatar.exists? %>
             <%= image_tag user.avatar.url(:thumb), :class => 'img-thumbnail' %>
-      		<% else %>
-      			<%= image_tag("avatar_thumb.png", :class => 'img-thumbnail') %>
-      		<% end %>
+          <% else %>
+            <%= image_tag("avatar_thumb.png", :class => 'img-thumbnail') %>
+          <% end %>
         </div>
-        <div class="col-md-8">  
+        <div class="col-md-4">
           <h4><%= link_to user.name, profile_index_path(:user => user.id) %>
-            <% if user.convidado(user.id, @project.id) %> 
-              <span class="label label-warning">Convidado</span> 
-            <% else %> 
-            <%= link_to 'Convidar', {:controller => "profile/invites", :action => "create", :email => user.email, :user_id => user.id}, :method => :post, :class => 'label label-success' %> 
+            <% if user.convidado(user.id, @project.id) %>
+              <span class="label label-warning">Convidado</span>
+            <% else %>
+            <%= link_to 'Convidar', {:controller => "profile/invites", :action => "create", :email => user.email, :user_id => user.id}, :method => :post, :class => 'label label-success' %>
             <% end %>
           </h4>
-      		<%= user.email %><br>
+          <%= user.email %><br>
             <div id="star-media-<%= user.id %>" class="text-center tip" data-toggle="tooltip" data-placement="top"></div>
-        </div>  
+        </div>
+
+        <div class="col-md-4 text-center">
+          <p>
+            <h1 class="title"><%= number_to_percentage user.indicatory, precision: 1%></h1>
+            <h6 class="title">Correspondências de habilidades</h6>
+          </p>
+        </div>
+
+      </div>
     </div>
-  	</div>
   </div>
 
     <script>

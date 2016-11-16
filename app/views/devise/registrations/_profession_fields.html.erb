@@ -1,0 +1,10 @@
+<div class="nested-fields">
+  <div class="field">
+    <%= f.select :title, options_for_select(Profession.titles.keys.to_a), {}, class: 'form-control' %>
+  </div>
+  <div class="field">
+    <%= link_to_remove_association f do %>
+      <i class="glyphicon glyphicon-minus"></i>
+    <% end %>
+  </div>
+</div>

@@ -25,7 +25,7 @@
 </div>
 
 <div class="text-center well well-sm well-incolor">
- <% if @telas.empty? %> 
+ <% if @telas.empty? %>
 <p>Nenhuma tela no momento</p>
  <%= link_to '<i class="glyphicon glyphicon-plus"></i> Adicione algumas telas nesse projeto'.html_safe, new_profile_project_tela_path(@profile_project), :class => 'btn btn-lg btn-primary' %>
 <% else %>
@@ -39,8 +39,8 @@
 
       <%= link_to '<i class="tela-ico glyphicon glyphicon-remove"></i>'.html_safe, profile_project_tela_path(@profile_project.id, tela), :method => :delete, data: { confirm: 'Tem certeza que deseja deletar essa tela?' }, :class => 'well well-sm' %>
     </div>
-    
-  </div>  
+
+  </div>
   <% end %>
       <%= link_to '<i class="glyphicon glyphicon-plus"></i><br> Adicione mais telas'.html_safe, new_profile_project_tela_path(@profile_project), :class => 'col-md-3 btn btn-lg btn-primary' %>
 </div>
@@ -48,19 +48,19 @@
 </div>
 
 <div class="row">
-<div class="page-header text-center">	
+<div class="page-header text-center">
 	<h3>Avaliadores</h3>
 </div>
 <% if @avaliadores.empty? %>
   <div class="text-center">
-    <p>Esse projeto ainda não tem avaliadores.</p> 
+    <p>Esse projeto ainda não tem avaliadores.</p>
     <p><%= link_to '<i class="flaticon flaticon-multiple25"></i> Convidar avaliadores'.html_safe, profile_project_convidar_path(@profile_project.id), :class => 'btn btn-lg btn-primary' %></p>
   </div>
-<% else %>	
+<% else %>
 <% @avaliadores.each do |avaliador| %>
   <div class="col-md-4">
   	<div class="well well-sm">
-      <div class="row"> 
+      <div class="row">
         <div class="col-md-4 text-center">
       		<% if avaliador.user.avatar.exists? %>
       			<%= image_tag avaliador.user.avatar.url(:thumb), :class => 'img-thumbnail' %>
@@ -68,12 +68,15 @@
       			<%= image_tag("avatar_thumb.png", :class => 'img-thumbnail') %>
       		<% end %>
         </div>
-        <div class="col-md-8"> 
-          <%= link_to '<i class="tip glyphicon glyphicon-remove-circle" data-toggle="tooltip" data-placement="top" title="Remover avaliador"></i>'.html_safe, profile_project_invite_path(avaliador.project_id, avaliador.id), method: :delete, :class => "delete-icon pull-right",data: { confirm: 'Tem certeza que deseja remover esse avaliador?' } %> 
+        <div class="col-md-8">
+          <%= link_to '<i class="tip glyphicon glyphicon-remove-circle" data-toggle="tooltip" data-placement="top" title="Remover avaliador"></i>'.html_safe, profile_project_invite_path(avaliador.project_id, avaliador.id), method: :delete, :class => "delete-icon pull-right",data: { confirm: 'Tem certeza que deseja remover esse avaliador?' } %>
           <h4><%= link_to avaliador.user.name, profile_index_path(:user => avaliador.user.id) %></h4>
       		<%= avaliador.user.email%><br>
       		<span class="label label-<% if avaliador.status? %>success<% else %>danger<% end %>"><% if avaliador.status? %>Avaliou<% else %>Não avaliou<% end %></span>
-        </div>  
+          <br>
+          Comprometimento: <div id="star-m"></div><br>
+          <% @feedback = feedback_average(avaliador.user).first %>
+        </div>
     </div>
   	</div>
   </div>
@@ -93,3 +96,12 @@
 </div>
 
 </div>
+<script type="text/javascript">
+  $('#star-m').raty({
+    readOnly: true,
+    noRatedMsg: 'Não avaliado!',
+    hints: ['Ruim', 'Pobre', 'Regular', 'Bom', 'Ótimo'],
+    score: <%= @feedback.nil? || @feedback.empty? ? 0 : @feedback[:average] %>,
+    path: '/assets'
+  });
+</script>

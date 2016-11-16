@@ -11,9 +11,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140815205030) do
+ActiveRecord::Schema.define(version: 20161111232727) do
 
-  create_table "activities", force: true do |t|
+  create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id"
     t.string   "trackable_type"
     t.integer  "owner_id"
@@ -30,7 +30,7 @@ ActiveRecord::Schema.define(version: 20140815205030) do
   add_index "activities", ["recipient_id", "recipient_type"], name: "index_activities_on_recipient_id_and_recipient_type"
   add_index "activities", ["trackable_id", "trackable_type"], name: "index_activities_on_trackable_id_and_trackable_type"
 
-  create_table "admin_devices", force: true do |t|
+  create_table "admin_devices", force: :cascade do |t|
     t.string   "name",              default: "", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 20140815205030) do
     t.datetime "icon_updated_at"
   end
 
-  create_table "admin_heuristics", force: true do |t|
+  create_table "admin_heuristics", force: :cascade do |t|
     t.string   "name",        default: "", null: false
     t.text     "description"
     t.integer  "device_id"
@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(version: 20140815205030) do
     t.datetime "updated_at"
   end
 
-  create_table "admin_questions", force: true do |t|
+  create_table "admin_questions", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
     t.integer  "heuristic_id"
@@ -57,7 +57,70 @@ ActiveRecord::Schema.define(version: 20140815205030) do
     t.integer  "position"
   end
 
-  create_table "profile_answers", force: true do |t|
+  create_table "educations", force: :cascade do |t|
+    t.integer  "degree"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "educations", ["user_id"], name: "index_educations_on_user_id"
+
+  create_table "experiences", force: :cascade do |t|
+    t.integer  "title"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "experiences", ["user_id"], name: "index_experiences_on_user_id"
+
+  create_table "feedback_types", force: :cascade do |t|
+    t.string   "info",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "position"
+  end
+
+  create_table "feedbacks", force: :cascade do |t|
+    t.integer  "rate",             null: false
+    t.integer  "evaluation_id"
+    t.integer  "feedback_type_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "feedbacks", ["evaluation_id"], name: "index_feedbacks_on_evaluation_id"
+  add_index "feedbacks", ["feedback_type_id"], name: "index_feedbacks_on_feedback_type_id"
+
+  create_table "knowledges", force: :cascade do |t|
+    t.integer  "title"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "knowledges", ["user_id"], name: "index_knowledges_on_user_id"
+
+  create_table "languages", force: :cascade do |t|
+    t.integer  "name"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "languages", ["user_id"], name: "index_languages_on_user_id"
+
+  create_table "professions", force: :cascade do |t|
+    t.integer  "title"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "professions", ["user_id"], name: "index_professions_on_user_id"
+
+  create_table "profile_answers", force: :cascade do |t|
     t.boolean  "problem",     default: false, null: false
     t.integer  "level",       default: 0,     null: false
     t.text     "comment"
@@ -69,12 +132,12 @@ ActiveRecord::Schema.define(version: 20140815205030) do
     t.integer  "tela_id"
   end
 
-  create_table "profile_evaluations", force: true do |t|
+  create_table "profile_evaluations", force: :cascade do |t|
     t.integer "user_id"
     t.integer "project_id"
   end
 
-  create_table "profile_invites", force: true do |t|
+  create_table "profile_invites", force: :cascade do |t|
     t.string   "email"
     t.integer  "project_id"
     t.integer  "user_id"
@@ -84,7 +147,7 @@ ActiveRecord::Schema.define(version: 20140815205030) do
     t.boolean  "status",     default: false, null: false
   end
 
-  create_table "profile_projects", force: true do |t|
+  create_table "profile_projects", force: :cascade do |t|
     t.string   "name",         default: "", null: false
     t.text     "description"
     t.integer  "status",       default: 1,  null: false
@@ -94,7 +157,7 @@ ActiveRecord::Schema.define(version: 20140815205030) do
     t.integer  "user_id"
   end
 
-  create_table "profile_telas", force: true do |t|
+  create_table "profile_telas", force: :cascade do |t|
     t.string   "tela"
     t.integer  "project_id"
     t.datetime "created_at"
@@ -107,7 +170,7 @@ ActiveRecord::Schema.define(version: 20140815205030) do
     t.string   "description"
   end
 
-  create_table "ratings", force: true do |t|
+  create_table "ratings", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "score",        default: 0, null: false
     t.datetime "created_at"
@@ -115,7 +178,7 @@ ActiveRecord::Schema.define(version: 20140815205030) do
     t.integer  "evaluator_id"
   end
 
-  create_table "users", force: true do |t|
+  create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",    null: false
     t.string   "encrypted_password",     default: "",    null: false
     t.string   "reset_password_token"

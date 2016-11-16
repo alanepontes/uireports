@@ -43,8 +43,8 @@ class Profile::AnswersController < ApplicationController
         if @perguntaid < @p_total
           format.html { redirect_to new_profile_project_tela_answer_path(:tela_id => @tela.id, :p => @perguntaid+1) }
         else
-          format.html { redirect_to profile_project_avaliar_path, notice: 'Avaliação completa. Obrigado! :)' }    
-        end  
+          format.html { redirect_to profile_project_avaliar_path, notice: 'Avaliação completa. Obrigado! :)' }
+        end
         format.json { render :show, status: :created, location: @profile_answer }
       else
         format.html { redirect_to new_profile_project_tela_answer_path(:tela_id => @tela.id, :p => @perguntaid), alert: 'Erro. Projeto já avaliado.'}
@@ -103,7 +103,7 @@ class Profile::AnswersController < ApplicationController
     end
 
     def get_tela
-      @tela = Profile::Tela.find(params[:tela_id])      
+      @tela = Profile::Tela.find(params[:tela_id])
     end
 
     def get_question_position

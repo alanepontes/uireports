@@ -20,8 +20,12 @@
     <%= f.text_area :description, :rows => '12', :class => 'form-control' %>
   </div>
   <div class="form-group">
+    <%= label_tag :device_id, "Dispositivo" %> <i class="tip glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Qual dispositivo deve ser usado para avaliar esse projeto?"></i><br>
+    <%= select_tag(:device_id, options_for_select(Admin::Device.order(:name).map{ |d| [d.name, d.name, {selected: d == @profile_project.heuristic.try(:device)}] }), {:prompt => 'Selecione o dispositivo para esse projeto', :class => 'form-control'} ) %>
+  </div>
+  <div class="form-group">
     <%= f.label :heuristic_id, "Heuristica" %> <i class="tip glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Qual heurística deve ser usada para avaliar esse projeto?"></i><br>
-    <%= f.collection_select(:heuristic_id, Admin::Heuristic.order(:name), :id, :name, {:prompt => 'Selecione a heurística para esse projeto'}, :class => 'form-control') %>
+    <%= f.select(:heuristic_id, options_for_select(Admin::Heuristic.order(:name).map{ |h| [h.name, h.id, {:class => "#{h.device.name} heuristic hide"}] }), {:prompt => 'Selecione a heurística para esse projeto'}, :class => 'form-control' ) %>
   </div>
   <div class="form-group">
     <%= f.label :status, "Status" %> <b>do projeto</b> <i class="tip glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Projeto disponível ou não para avaliação."></i><br>
@@ -32,3 +36,14 @@
     <%= f.submit nil, :class => 'btn btn-primary' %>
   </div>
 <% end %>
+
+<script>
+  $('#device_id').change(function(){
+    $(".heuristic").addClass('hide');
+
+    var device_name = $('#device_id').val();
+    if(!!device_name){
+      $("." + device_name + ".heuristic").removeClass('hide');
+    }
+  });
+</script>

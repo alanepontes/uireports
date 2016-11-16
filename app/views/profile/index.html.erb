@@ -5,19 +5,23 @@
 <div class="row-fluid">
 	<div id="profile" class="col-md-3 well well-primary text-center">
 		<% if @user_data.avatar.exists? %>
-			<%= image_tag @user_data.avatar.url(:medium), :class => 'img-thumbnail' %>	
+			<%= image_tag @user_data.avatar.url(:medium), :class => 'img-thumbnail' %>
   		<% else %>
   			<%= image_tag("avatar_medium.png", :class => 'img-thumbnail') %>
   		<% end %>
   		<h3><%= @user_data.name %></h3>
   		<div class="tip"  data-toggle="tooltip" data-placement="top" title="Reputação do usuário.">
 	  		<% if current_user.id != @user_data.id %>
-	  			Seu voto<br>	
+	  			Seu voto<br>
 	  			<div id="star"></div><br>
-	  		<% end %>	
+          <br>
+	  		<% end %>
 	  			Reputação do usuário<br>
 	  			<div id="star-media"></div><br>
-	  	</div>	
+
+          Comprometimento<br>
+          <div id="star-media2"></div><br>
+	  	</div>
 
   		<% unless @user_data.age.nil? %>
 			<p><strong>Idade:</strong>	<%= @user_data.age %> anos</p>
@@ -48,63 +52,156 @@
 							<h2 class="title">Últimos projetos de <%= @user_data.name %></h2>
 					    </li>
 					    <% if @user_projects[0].nil? %>
-					    	<li class="list-group-item text-center"><h4><% if @user_data.id = current_user.id %>Você<% else %><%= @user_data.name %><% end %> ainda não tem nenhum projeto</h4></li>	
+					    	<li class="list-group-item text-center"><h4><% if @user_data.id = current_user.id %>Você<% else %><%= @user_data.name %><% end %> ainda não tem nenhum projeto</h4></li>
 					    <% else %>
 						    <% @user_projects.each do |project| %>
 							<li class="list-group-item">
 							    <div class="row">
 							    	<div class="col-md-9">
-							    		<h3><%= project.name %><br><small><strong>Heurística:</strong> <%= project.heuristic.name %> <%= image_tag project.heuristic.device.icon.url(:thumb) %></small></h3>	
+							    		<h3><%= project.name %><br><small><strong>Heurística:</strong> <%= project.heuristic.name %> <%= image_tag project.heuristic.device.icon.url(:thumb) %></small></h3>
 							    		<h4><small><strong>Criado em:</strong> <%= project.created_at.strftime("%d/%m/%Y") %></small></h4>
 							    		<button class="btn btn-sm btn-primary" data-toggle="collapse" href="#collapse<%= project.id %>">Sobre esse projeto</button>
 							    	</div>
 							    	<div id="projetos-profile" class="col-md-3 text-center bg-success">
 							    		<h1 class="title"><small>Avaliado</small><p></p><%= project.num_eval %><br><small><% if project.num_eval > 1 or project.num_eval == 0 %>vezes<% else %>vez<% end %></small></h1></h2>
 							    	</div>
-							    </div>	
+							    </div>
 
 							    <div id="collapse<%= project.id %>" class="panel-collapse collapse">
-								    <hr>	
+								    <hr>
 								    <div class="panel-body">
 								      	<% if project.description.empty? %>
 								        	<h4 class="text-center">Sem descrição</h4>
-								        <% else %>	
+								        <% else %>
 								        	<%= project.description %>
 								        <% end %>
 								    </div>
-								</div>			    	
+								</div>
 							</li>
 						    <% end %>
-						<% end %>    
+						<% end %>
 					</ul>
 				</div>
 				<div class="col-md-6">
 					<ul class="list-group">
 					    <li class="list-group-item">
-							<h2 class="title">Avaliados por <%= @user_data.name %></h2>
+							  <h3 class="title">Avaliados por <%= @user_data.name %></h3>
+                <button type="button" class="btn btn-primary btn-small" data-toggle="modal" data-target='#modal-resumo'>
+                  Resumo de Feedback
+                </button>
+                <!-- Modal -->
+                <div class="modal fade" id='modal-resumo' tabindex="-1" role="dialog" aria-labelledby='modal-resumo'>
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id='modal-resumo'> Resumo dos feedbacks de <%= @user_data.name %></h4>
+                      </div>
+                      <div class="modal-body">
+                        <ul class="list-group">
+                          <% if  !feedback_average(@user_data).empty? %>
+                            <% feedback_average(@user_data).each_with_index do |feedback, index| %>
+                              <li class="list-group-item">
+                                <span class="badge star-badge"> <div id='star-avg<%= "#{index}"%>'></div> </span>
+                                <%= feedback[:info] %>
+                              </li>
+                              <script>
+                                $('#star-avg<%= "#{index}"%>').raty({
+                                  readOnly: true,
+                                  noRatedMsg: 'Não avaliado!',
+                                  hints: ['Ruim', 'Pobre', 'Regular', 'Bom', 'Ótimo'],
+                                  score: <%= feedback[:average] %>,
+                                  path: '/assets'
+                                });
+                              </script>
+                            <% end %>
+
+                          <% else %>
+                            <li class="list-group-item">
+                              Nenhum feedback ainda
+                            </li>
+                          <% end %>
+                        </ul>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 					    </li>
 					    <% if @user_avaliac.empty? %>
-					    	<li class="list-group-item text-center"><h4><% if @user_data.id = current_user.id %>Você<% else %><%= @user_data.name %><% end %> ainda não avaliou nenhum projeto</h4></li>	
+					    	<li class="list-group-item text-center"><h4><% if @user_data.id = current_user.id %>Você<% else %><%= @user_data.name %><% end %> ainda não avaliou nenhum projeto</h4></li>
 					    <% else %>
 						    <% @user_avaliac.each do |avaliac| %>
 						    <li class="list-group-item">
 						    	<div class="row">
 						    		<div class="col-md-2" style="padding:2px 10px 0px">
 						    		<% if avaliac.project.user.avatar.exists? %>
-										<%= image_tag avaliac.project.user.avatar.url(:thumb), :class => 'img-thumbnail img-responsive' %>	
+										  <%= image_tag avaliac.project.user.avatar.url(:thumb), :class => 'img-thumbnail img-responsive' %>
 							  		<% else %>
 							  			<%= image_tag("avatar_medium.png", :class => 'img-thumbnail') %>
 							  		<% end %>
-							  		</div> 
-						    		<div class="col-md-10"><h4><%= avaliac.project.name %><br><small>de <%= link_to avaliac.project.user.name, profile_index_path(:user => avaliac.project.user.id) %></small></h4></div>
+							  		</div>
+                    <div class="col-md-4">
+                      <h4>
+                        <%= avaliac.project.name %><br>
+                        <small>de <%= link_to avaliac.project.user.name, profile_index_path(:user => avaliac.project.user.id) %></small>
+                      </h4>
+                    </div>
+                    <div class="col-md-6">
+                      <% if current_user.id == avaliac.project.user.id && !avaliac.feedbacks %>
+                        <%= link_to new_feedback_path(avaliac.project.user, avaliac, p: 1), class:"btn btn-primary btn-small" do %>
+                          Enviar Feedback
+                        <% end %>
+                      <% else %>
+                          <button type="button" class="btn btn-primary btn-small" data-toggle="modal" data-target='#myModal<%= "#{avaliac.id}"%>'>
+                            Visualizar Feedback
+                          </button>
+                      <% end %>
+
+                      <!-- Modal -->
+                      <div class="modal fade" id='myModal<%= "#{avaliac.id}"%>' tabindex="-1" role="dialog" aria-labelledby='myModal<%= "#{avaliac.id}"%>'>
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>
+                              <h4 class="modal-title" id='myModal<%= "#{avaliac.id}"%>'>Feedback da avaliação de <%= avaliac.project.name %> por <%= avaliac.project.user.name %></h4>
+                            </div>
+                            <div class="modal-body">
+                              <ul class="list-group">
+                                <% feed_back_user(avaliac).each_with_index do |feedback, index| %>
+                                  <li class="list-group-item">
+                                    <span class="badge star-badge"> <div id='star-avg<%= "#{avaliac.id}#{index}"%>'></div> </span>
+                                    <%= feedback[:info] %>
+                                  </li>
+                                  <script>
+                                    $('#star-avg<%= "#{avaliac.id}#{index}"%>').raty({
+                                      readOnly: true,
+                                      noRatedMsg: 'Não avaliado!',
+                                      hints: ['Ruim', 'Pobre', 'Regular', 'Bom', 'Ótimo'],
+                                      score: <%= feedback[:rate] %>,
+                                      path: '/assets'
+                                    });
+                                  </script>
+                                <% end %>
+                              </ul>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
 						    	</div>
 						    </li>
 						    <% end %>
-						<% end %>    
+						<% end %>
 					</ul>
 				</div>
-			</div>	
-		</div>			
+			</div>
+		</div>
 	</div>
 </div>
 
@@ -116,6 +213,14 @@
     noRatedMsg: 'Não avaliado!',
     hints: ['Ruim', 'Pobre', 'Regular', 'Bom', 'Ótimo'],
     score: <% if params[:user] %><%= average_rating(params[:user]) %><% else %><%= average_rating(@user_data.id) %><% end %>,
+    path: '/assets'
+  });
+
+  $('#star-media2').raty({
+    readOnly: true,
+    noRatedMsg: 'Não avaliado!',
+    hints: ['Ruim', 'Pobre', 'Regular', 'Bom', 'Ótimo'],
+    score: <%= @feedback.nil? || @feedback.empty? ? 0 : @feedback[:average] %>,
     path: '/assets'
   });
 

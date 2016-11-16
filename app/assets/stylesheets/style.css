@@ -12,7 +12,7 @@
   font-style: normal;
 }
 [class^="flaticon-"]:before, [class*=" flaticon-"]:before,
-[class^="flaticon-"]:after, [class*=" flaticon-"]:after {   
+[class^="flaticon-"]:after, [class*=" flaticon-"]:after {
   font-family: Flaticon;
   font-style: normal;
   -webkit-font-smoothing: antialiased;
@@ -98,11 +98,11 @@ a i.flaticon:link{
 
 .jumbotron p{
   line-height: 1.7em;
-} 
+}
 .jumbotron .btn-default{
   background-color: #563E7C;
   border: 1px solid #fff;
-  color:#fff; 
+  color:#fff;
   padding:20px 0px;
   transition:background-color 0.7s, border-color 0.7s, color 0.7s;
 }
@@ -115,7 +115,7 @@ a i.flaticon:link{
 .h-zigzag {
     background:
         linear-gradient(-135deg, #563E7C 5px, transparent 0) 0 5px,
-        linear-gradient(135deg, #563E7C 5px, #fff 0) 0 5px;        
+        linear-gradient(135deg, #563E7C 5px, #fff 0) 0 5px;
     background-color: #563E7C;
     background-position: left bottom, left bottom, top;
     background-repeat: repeat-x;
@@ -265,7 +265,7 @@ a i.flaticon:link{
 .well-primary{
   color: #ffffff;
   background-color: #4a356b;
-  border-color: #4a356b; 
+  border-color: #4a356b;
 }
 
 .star-medium{
@@ -295,7 +295,7 @@ a i.flaticon:link{
   color: #cfc1e5;
 }
 #perguntas{
-  height:100%; 
+  height:100%;
   min-height:100%;
   height:auto !important;
 }
@@ -307,7 +307,7 @@ a i.flaticon:link{
   position:relative;
   top:-10px;
 }
-#star, #star-media{
+#star, #star-media, #star-media2{
   display: block;
   width:100px !important;
   margin:0 auto;
@@ -356,8 +356,8 @@ a.salvar-pdf p{
 }
 
 .list-fix{
-  margin-bottom:-3px; 
-  border-bottom-left-radius:0px; 
+  margin-bottom:-3px;
+  border-bottom-left-radius:0px;
   border-bottom-right-radius:0px;
 }
 
@@ -444,4 +444,19 @@ fieldset[disabled] .btn-orange.active {
 .btn-orange .badge {
   color: #f0ad4e;
   background-color: #ffffff;
+}
+
+
+
+:hov
+
+.cls
+
+element.style {
+}
+.list-group-item > .badge {
+    float: right;
+}
+.star-badge {
+  background-color: transparent !important;
 }

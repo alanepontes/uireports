@@ -25,5 +25,7 @@ module Uireport
     config.assets.paths << Rails.root.join('app', 'assets', 'fonts')
     config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
     config.middleware.use "PDFKit::Middleware", :print_media_type => true
+    config.active_record.raise_in_transactional_callbacks = true
+
   end
 end

@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
   namespace :profile do
     resources :projects do
-      resources :telas do 
+      resources :telas do
         resources :answers
         get 'relatorio' => 'telas#relatorio', :as => 'relatorio'
       end
@@ -19,7 +19,7 @@ Rails.application.routes.draw do
       get 'convidar' => 'projects#invite', :as => 'convidar'
       get 'resultado' => 'projects#resultado'
       get 'avaliar' => 'projects#avaliar', :as => 'avaliar'
-    end 
+    end
     get 'para_avaliar' => 'projects#para_avaliar', :as => 'para_avaliar'
   end
 
@@ -34,8 +34,10 @@ Rails.application.routes.draw do
   end
 
   devise_for :users, :controllers => { :registrations => :registrations }
-
   resources :ratings, only: :update
+
+  get '/users/:user_id/evaluation/:evaluation_id/feedbacks/new' => 'feedbacks#new', as: :new_feedback
+  post '/users/:user_id/evaluation/:evaluation_id/feedbacks' => 'feedbacks#create', as: :feedbacks
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

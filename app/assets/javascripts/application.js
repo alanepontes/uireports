@@ -18,6 +18,7 @@
 //= require jquery.raty
 //= require turbolinks
 //= require bootstrap-switch
+//= require cocoon
 //= require_tree .
 
 $(document).on('page:change', function() { 

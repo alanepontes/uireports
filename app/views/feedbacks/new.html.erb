@@ -1,0 +1,46 @@
+<% titulo "Feedback da avaliação de #{@user_data.name}" %>
+<div class="well well-sm text-center" style="margin-top:-20px; border-radius:0px; padding:5px 0px 3px">
+  <%= link_to '<i class="glyphicon glyphicon-chevron-left"></i> Voltar'.html_safe, :back, :class => 'btn btn-sm btn-default pull-left', :style => 'margin:3px 0 0 3px;' %>
+  <h4> FeedBack de avaliação </h4>
+</div>
+
+<div id="paleta" class="row-fluid">
+  <div id="perguntas" class="bg-primary col-md-4">
+    <div class="well well-sm well-incolor">
+        Pergunta <%= params['p'] %> de <%= @p_total %>
+
+        <hr class="rule-paleta">
+        <%= form_for([@feedback], :url => feedbacks_path) do |f| %>
+          <% if @feedback.errors.any? %>
+            <div id="error_explanation">
+              <h2><%= pluralize(@feedback.errors.count, "error") %> prohibited this feedback from being saved:</h2>
+
+              <ul>
+              <% @feedback.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+              </ul>
+            </div>
+          <% end %>
+
+          <div class="form-group">
+            <%= f.label :rate, @feedback_type.info %> <i class="tip glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Esse projeto possui o problema mencionado na pergunta?"></i><br>
+            <%= f.radio_button(:rate, 1) %> 1
+            <%= f.radio_button(:rate, 2) %> 2
+            <%= f.radio_button(:rate, 3) %> 3
+            <%= f.radio_button(:rate, 4) %> 4
+            <%= f.radio_button(:rate, 5) %> 5
+          </div>
+          <%= f.hidden_field :feedback_type_id, value: @feedback_type.id %>
+          <%= f.hidden_field :p, value: @q_id %>
+
+          <div class="form-group">
+            <% if @p_total != @q_id %>
+              <%= f.submit 'Próxima'.html_safe, :class => "btn btn-primary pull-right" %>
+            <% else %>
+              <%= f.submit 'Finalizar'.html_safe, :class => "btn btn-primary pull-right" %>
+            <% end %>
+          </div>
+        <% end %>
+    </div>
+  </div>

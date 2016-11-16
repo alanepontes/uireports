@@ -19,6 +19,75 @@
   <%= f.email_field :email, :class => 'form-control' %>
 </div>
 
+<hr />
+
+<div class="form-group" id='educations'>
+    <%- f.object.educations.build if f.object.educations.blank? %>
+    <%= f.fields_for :educations do |edu| %>
+      <%= f.label :degree, "Formação Acadêmica" %><br />
+      <%= render 'education_fields', :f => edu %>
+    <% end %>
+    <div class='links'>
+      <%= link_to_add_association f, :educations do %>
+        <i class="glyphicon glyphicon-plus"></i>
+      <% end %>
+    </div>
+ </div>
+
+<div class="form-group" id='professions'>
+    <%- f.object.professions.build if f.object.professions.blank? %>
+    <%= f.fields_for :professions do |prof| %>
+      <%= f.label :title, "Profissão" %><br />
+      <%= render 'profession_fields', :f => prof %>
+    <% end %>
+    <div class='links'>
+      <%= link_to_add_association f, :professions do %>
+        <i class="glyphicon glyphicon-plus"></i>
+      <% end %>
+    </div>
+ </div>
+
+ <div class="form-group" id='knowledges'>
+    <%- f.object.knowledges.build if f.object.knowledges.blank? %>
+    <%= f.fields_for :knowledges do |know| %>
+      <%= f.label :title, "Possuo os seguintes conhecimentos" %><br />
+      <%= render 'knowledge_fields', :f => know %>
+    <% end %>
+    <div class='links'>
+      <%= link_to_add_association f, :knowledges do %>
+        <i class="glyphicon glyphicon-plus"></i>
+      <% end %>
+    </div>
+ </div>
+
+ <div class="form-group" id='experiences'>
+    <%- f.object.experiences.build if f.object.experiences.blank? %>
+    <%= f.fields_for :experiences do |know| %>
+      <%= f.label :title, "Possuo experiência profissional em" %><br />
+      <%= render 'experience_fields', :f => know %>
+    <% end %>
+    <div class='links'>
+      <%= link_to_add_association f, :experiences do %>
+        <i class="glyphicon glyphicon-plus"></i>
+      <% end %>
+    </div>
+ </div>
+
+ <div class="form-group" id='languages'>
+    <%- f.object.languages.build if f.object.languages.blank? %>
+    <%= f.fields_for :languages do |know| %>
+      <%= f.label :title, "Idiomas" %><br />
+      <%= render 'language_fields', :f => know %>
+    <% end %>
+    <div class='links'>
+      <%= link_to_add_association f, :languages do %>
+        <i class="glyphicon glyphicon-plus"></i>
+      <% end %>
+    </div>
+ </div>
+
+<hr />
+
 <div class="form-group">
   <%= f.label :password, "Senha" %><br />
   <%= f.password_field :password, :class => 'form-control' %>

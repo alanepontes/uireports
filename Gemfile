@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.1.0'
+gem 'rails', '4.2.6'
 
 group :development do
   gem 'sqlite3'
@@ -11,11 +11,24 @@ group :development do
   gem 'binding_of_caller'
 end
 
+group :development, :test do
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
+end
+
+group :test do
+  gem 'shoulda-matchers', github: 'thoughtbot/shoulda-matchers'
+  gem 'capybara'
+  gem 'faker'
+  gem 'database_cleaner'
+end
+
 group :production do
   gem 'pg'
   gem 'rails_12factor'
 end
 
+gem "cocoon"
 gem 'sass-rails', '~> 4.0.3'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
@@ -50,4 +63,4 @@ gem 'jquery-raty-rails', git: 'http://github.com/bmc/jquery-raty-rails'
 # Use debugger
 #gem 'debugger', group: [:development, :test]
 
-ruby "2.1.2"
+ruby "2.2.4"
