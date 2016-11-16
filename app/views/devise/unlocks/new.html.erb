@@ -1,0 +1,24 @@
+<% titulo "Reenviar e-mail de desbloquei" %>
+
+<div class="container well">
+
+<div class="page-header text-center">
+	<h1>Reenviar e-mail de desbloqueio</h1>
+</div>
+
+<%= form_for(resource, :as => resource_name, :url => unlock_path(resource_name), :html => { :method => :post }) do |f| %>
+  <%= devise_error_messages! %>
+
+<div class="form-group text-center">
+  <div><%= f.label :email, "E-Mail" %><br />
+  <%= f.email_field :email, :class => 'form-control' %></div>
+</div>
+
+<div class="form-group text-center">
+  <div><%= f.submit "Reenviar intruções de desbloqueio", :class => 'btn btn-lg btn-primary' %></div>
+</div>
+<% end %>
+
+<div class="text-center">
+<%= render "devise/shared/links" %>
+</div>

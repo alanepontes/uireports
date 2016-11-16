@@ -1,0 +1,29 @@
+<%- if controller_name != 'sessions' && controller_name != 'registrations' %>
+  <%= link_to "Entre com sua conta", new_session_path(resource_name), :class => 'btn btn-default' %>
+<% end -%>
+
+<%- if controller_name == 'registrations' %>
+  <%= link_to "Já tem uma conta? Faça login.", new_session_path(resource_name), :class => 'btn btn-lg btn-default' %>
+<% end -%>
+
+<%- if devise_mapping.registerable? && controller_name != 'registrations' %>
+  <%= link_to "Registrar", new_registration_path(resource_name), :class => 'btn btn-default' %>
+<% end -%>
+
+<%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+  <%= link_to "Esqueceu sua senha?", new_password_path(resource_name), :class => 'btn btn-default' %>
+<% end -%>
+
+<%- if devise_mapping.confirmable? && controller_name != 'confirmations' && controller_name != 'registrations' %>
+  <%= link_to "Não recebeu o e-mail de confirmação?", new_user_confirmation_path(resource_name), :class => 'btn btn-default' %>
+<% end -%>
+
+<%- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' %>
+  <%= link_to "Não recebeu o e-mail de desbloqueio?", new_unlock_path(resource_name), :class => 'btn btn-default' %>
+<% end -%>
+
+<%- if devise_mapping.omniauthable? %>
+  <%- resource_class.omniauth_providers.each do |provider| %>
+    <%= link_to "Faça login com #{provider.to_s.titleize}", omniauth_authorize_path(resource_name, provider), :class => 'btn btn-default' %>
+  <% end -%>
+<% end -%>

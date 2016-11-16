@@ -1,0 +1,62 @@
+<div class="well well-sm text-center" style="margin-top:-20px; border-radius:0px; padding:5px 0px 3px">
+	<%= link_to '<i class="glyphicon glyphicon-chevron-left"></i> Voltar'.html_safe, profile_project_avaliar_path, :class => 'btn btn-sm btn-default pull-left', :style => 'margin:3px 0 0 3px;' %>
+  	<h4>Tela #<%= @tela.position %> <small><i class="glyphicon glyphicon-info-sign"></i><a data-toggle="modal" href="#myModal" style="margin:3px 0 0 3px;">Sobre</a></small></h4>
+</div>
+
+<div id="paleta" class="row-fluid">
+	<div id="perguntas" class="bg-primary col-md-4">
+		<div class="well well-sm well-incolor">
+				<h3 style="margin-bottom:-10px"><%= @pergunta.name %></h3> <a href="#collapse<%= @pergunta.id %>" data-toggle="collapse" style="color:#e5dcf4"><br>(<i class="glyphicon glyphicon-info-sign"></i> O que é isso?)</a> | Pergunta <%= params['p']%> de <%= @p_total %>
+
+				<div id="collapse<%= @pergunta.id %>" class="panel-collapse collapse">
+					<div class="panel-body">
+					<% if @pergunta.description.empty? %>
+						<h5 class="text-center">Sem descrição</h5>
+					<% else %>	
+						<%= @pergunta.description %>
+					<% end %>
+					</div>
+				</div>
+				<hr class="rule-paleta">
+				<%= render 'form' %>
+		</div>
+	</div>
+
+	<div id="paleta-tela" class="col-md-8 text-center" style="padding-top:15px">
+
+	    <%= image_tag @tela.tela.url, :class => "img-thumbnail img-responsive" %>
+
+	</div>
+</div>
+
+<div class="modal fade bs-example-modal-lg" id="sobre" tabindex="-1" role="dialog" aria-labelledby="sobre" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Sobre esta tela</h4>
+      </div>
+      <div class="modal-body text-center">
+        <% if @tela.description.nil? %>
+        	<h3>Sem descrição</h3>
+        <% else %>	
+        	<%= @tela.description %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

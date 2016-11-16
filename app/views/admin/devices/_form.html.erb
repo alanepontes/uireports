@@ -1,0 +1,26 @@
+<%= form_for(@admin_device) do |f| %>
+  <% if @admin_device.errors.any? %>
+    <div class="alert alert-danger">
+      <h4><i class="glyphicon glyphicon-remove-sign"></i> Erro ao salvar dispositivo:</h4>
+
+      <ul class="list-unstyled">
+      <% @admin_device.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :name, "Nome" %> <i class="tip glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Dispositivos que aceitam interfaces para avaliação. Ex: TV, Mobile, Desktop."></i><br>
+    <%= f.text_field :name, :class => 'form-control' %>
+  </div>
+  <div class="form-group">
+    <%= f.label :icon, "Ícone" %> <i class="tip glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Ícone para representar o dispositivo."></i><br>
+    <%= f.file_field :icon, :class => 'form-control' %>
+  </div>
+  <div class="form-group">
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+  </div>
+<% end %>
+

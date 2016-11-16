@@ -1,0 +1,22 @@
+<% titulo "Pergunta #{@admin_question.name}" %>
+
+<%= render "layouts/admin_menu" %>
+
+<div class="container-default">
+
+<div class="page-header text-center">
+	<h1><%= @admin_question.name %><br><small><%= @admin_question.heuristic.name %></small></h1>
+</div>
+
+<p class="text-center">
+  <%= @admin_question.description %>
+</p>
+
+<div class="well well-sm">
+<%= link_to '<i class="glyphicon glyphicon-edit"></i> Editar'.html_safe, edit_admin_heuristic_question_path(@heuristic, @admin_question), :class => 'btn btn-primary' %>
+<%= link_to '<i class="glyphicon glyphicon-chevron-left"></i> Voltar'.html_safe, admin_heuristic_questions_path, :class => 'btn btn-default' %>
+</div>
+
+</div>
+
+

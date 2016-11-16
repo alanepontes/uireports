@@ -1,0 +1,35 @@
+<h1>Listing profile_answers</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Problem</th>
+      <th>Level</th>
+      <th>Comment</th>
+      <th>User</th>
+      <th>Question</th>
+      <th>Tela</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @profile_answers.each do |profile_answer| %>
+      <tr>
+        <td><%= profile_answer.problem %></td>
+        <td><%= profile_answer.level %></td>
+        <td><%= profile_answer.comment %></td>
+        <td><%= profile_answer.user_id %></td>
+        <td><%= profile_answer.question_id %></td>
+        <td><%= profile_answer.tela_id %></td>
+        <td><%= link_to 'Show', profile_answer %></td>
+        <td><%= link_to 'Edit', edit_profile_answer_path(profile_answer) %></td>
+        <td><%= link_to 'Destroy', profile_answer, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Answer', new_profile_answer_path %>

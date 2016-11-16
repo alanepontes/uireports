@@ -1,0 +1,118 @@
+<% titulo "Resultados para @project.name" %>
+
+<%= javascript_include_tag "highcharts.js", "chartkick" %>
+
+<div class="container-default">
+
+<div class="page-header text-center">
+	<h1 class="title">Relatório para tela #<%= @tela.position %><br><small>Estatísticas e comentários de usuários</strong></small></h1>
+</div>
+
+<div class="row">
+	<ul class="col-md-6 list-group">
+		<li class="list-group-item well well-sm text-center list-fix"><h3>Problemas nessa tela: <br><small>Proporção de tópicos com problemas</small></h3></li>
+
+		<li class="list-group-item"><%= pie_chart @result_problema, library: {plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                }
+            }, tooltip: {
+                pointFormat: '{point.percentage:.1f}%</b>'
+            }} %></li>
+	</ul>
+	
+
+	<ul class="list-group col-md-6">
+		<li class="list-group-item well well-sm text-center list-fix">
+			<h3>Gravidade dos problemas:<br><small>Número de avaliações por gravidade</small></h3>
+		</li>
+		<li class="list-group-item" style="padding-bottom:0px">
+			<div class="row">
+				<div class="col-md-6 btn btn-success zero-radius">
+					<h1><%if @result_gravidade[0].nil? %>0<% else %><%= @result_gravidade[0] %><% end %></h1>
+					Não é problema
+				</div>
+				<div class="col-md-6 btn btn-info zero-radius">
+					<h1><%if @result_gravidade[1].nil? %>0<% else %><%= @result_gravidade[1] %><% end %></h1>
+					<%= 'Problema'.pluralize(@result_gravidade[1]) %> <%= 'Cosmético'.pluralize(@result_gravidade[1]) %>
+				</div>
+				<div class="col-md-6 btn btn-warning zero-radius">
+					<h1><%if @result_gravidade[2].nil? %>0<% else %><%= @result_gravidade[2] %><% end %></h1>
+					<%= 'Problema'.pluralize(@result_gravidade[2]) %> <%= 'Simples'.pluralize(@result_gravidade[2]) %>
+				</div>
+				<div class="col-md-6 btn btn-orange zero-radius">
+					<h1><%if @result_gravidade[3].nil? %>0<% else %><%= @result_gravidade[3] %><% end %></h1>
+					<%= 'Problema'.pluralize(@result_gravidade[3]) %> <%= 'Grave'.pluralize(@result_gravidade[3]) %>
+				</div>
+				<div class="col-md-12 btn btn-danger zero-radius">
+					<h1><%if @result_gravidade[4].nil? %>0<% else %><%= @result_gravidade[4] %><% end %></h1>
+					<%= 'Problema'.pluralize(@result_gravidade[4]) %> <%= 'Gravíssimo'.pluralize(@result_gravidade[2]) %>
+				</div>
+			</div>
+		</li>
+	</ui>
+
+</div>
+
+<ul class="list-group">
+	<li class="list-group-item well well-sm text-center list-fix"><h3>Tipos de problemas: <br><small>Quais os tipos de problemas mais frequentes dentre os fatores avaliados</small></h3></li>
+
+	<li class="list-group-item"><%= pie_chart @result_tipos, library: {plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                }
+            }, tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            }} %></li>
+</ul>
+
+<br>
+
+<div class="container text-center alert <% if @nota <= 1.3 %>alert-danger<% elsif @nota > 1.3 and @nota <= 2.6 %>alert-warning<% elsif @nota > 2.6 %>alert-success<% end %>">
+	<h3>Nota geral</h3><h1><%= format("%.1f", @nota) %><small> de 4</small></h1>
+	<p><%= mensagem_nota(@nota) %></p>
+</div>
+
+
+<ul class="list-group">
+	<li class="list-group-item well" style="margin-bottom:-3px; border-bottom-left-radius:0px; border-bottom-right-radius:0px;">
+		<h3>Comentários:<br><small class="hidden-print">Ajude avaliando os usuários de acordo com os comentários. Visite o perfil dos avaliadores e dê seu feedback. <% 3.times do %><i class="glyphicon glyphicon-star"></i><% end %><% 2.times do %><i class="glyphicon glyphicon-star-empty"></i><% end %></small></h3>
+	</li>
+<% @resultados.each do |resultado| %>
+	<% unless resultado.comment.empty? %>
+	<li class="list-group-item">
+		<div class="row">
+			<div class="col-md-1 text-center" style="border-left:4px solid #563e7c">
+				<% if resultado.user.avatar.exists? %>
+		          <%= image_tag resultado.user.avatar.url(:thumb), :class => 'img-circle img-responsive' %>
+			    <% else %>
+			      <%= image_tag("avatar_medium.png", :class => 'avatar-small img-circle img-responsive') %>
+			    <% end %>				
+				<%= link_to resultado.user.name, profile_index_path(:user => resultado.user.id) %>
+			</div> 
+			<div class="col-md-9" style="border-right:1px solid #ccc">
+				<p class="text-primary"><strong><i>Tópico <%= resultado.question.position %>: <%= resultado.question.name %></i></strong></p>
+				<%= resultado.comment %>
+			</div>
+			<div class="col-md-2 text-center">
+				<h3 style="margin:0px 0px 0 0"><small class="text-center">Severidade<br />	
+				<%= gravidade(resultado.level).html_safe %></small></h3>
+			</div>
+		</div>
+	</li>
+	<% end %>
+<% end %>
+</ul>
+
+
+</div>

@@ -1,0 +1,41 @@
+<% titulo "Avaliar @project.name" %>
+
+<div class="container-fluid">
+
+<div class="page-header text-center">
+	<h1>Avaliar projeto: <%= @project.name %><br/><small>Clique na tela que deseja avaliar para começar</small></h1>
+	<button class="btn btn-primary"  data-toggle="collapse" href="#collapse-description" style="margin-bottom:10px">Descrição do projeto</button>
+	<div id="collapse-description" class="well well-sm text-center panel-collapse collapse">
+		<div class="row">
+			<div class="col-md-4"><b class="glyphicon glyphicon-user">:</b> <%= link_to @project.user.name, profile_index_path(:user => @project.user.id) %></div>
+			<div class="col-md-4"><b class="glyphicon glyphicon-calendar">:</b> <%= @project.created_at %></div>
+			<div class="col-md-4"><b class="glyphicon glyphicon-th-list">:</b> <%= @project.heuristic.name %></div>
+			<div class="col-md-12">
+				<hr>
+				<% if @project.description.empty? %>
+					<h4>Sem descrição</h4>
+				<% else %>	
+					<p><%= @project.description %></p>  
+				<% end %>
+			</div>
+		</div>		
+	</div>	
+</div>
+
+<div class="text-center well well-sm well-incolor">
+ <% if @telas.empty? %> 
+<p>Nenhuma tela no momento</p>
+<% else %>
+  <div class="row">
+  <% @telas.each do |tela| %>
+  <div class="col-md-3">
+    <%= link_to (image_tag tela.tela.url(:medium), :class => "img-thumbnail"), new_profile_project_tela_answer_path(:tela_id => tela.id, :p => 1) %><br>
+  </div>  
+  <% end %>
+</div>
+<% end %>
+</div>
+
+</div>
+
+

@@ -1,0 +1,73 @@
+<div class="well well-sm text-center" style="margin-top:-20px; border-radius:0px; padding:5px 0px 3px">
+	<%= link_to '<i class="glyphicon glyphicon-chevron-left"></i> Voltar'.html_safe, profile_project_avaliar_path(@project.id), :class => 'btn btn-sm btn-default pull-left', :style => 'margin:3px 0 0 3px;' %>
+  	<h4><%= @project.name %> <small>(<strong>Heurística:</strong> <%= @project.heuristic.name %> <strong>Dispositivo:</strong> <%= @project.heuristic.device.name %>)</small></h4>
+</div>
+
+<div id="paleta" class="row-fluid">
+	<div id="perguntas" class="bg-primary col-md-4">
+		<div class="well well-sm well-incolor">
+				<h3><%= @pergunta.name %> <small><a href="#collapse<%= @pergunta.id %>" data-toggle="collapse" style="color:#e5dcf4">(O que é isso?)</a><br>Pergunta <%= params['p']%> de <%= @p_total %></small></h3>
+
+				<div id="collapse<%= @pergunta.id %>" class="panel-collapse collapse">
+					<div class="panel-body">
+					<% if @pergunta.description.empty? %>
+						<h5 class="text-center">Sem descrição</h5>
+					<% else %>	
+						<%= @pergunta.description %>
+					<% end %>
+					</div>
+				</div>
+				<hr class="rule-paleta">
+				<%= form_for([@profile_answer], :url => profile_project_tela_answer_path) do |f| %>
+				  <% if @profile_answer.errors.any? %>
+				    <div id="error_explanation">
+				      <h2><%= pluralize(@profile_answer.errors.count, "error") %> prohibited this profile_answer from being saved:</h2>
+
+				      <ul>
+				      <% @profile_answer.errors.full_messages.each do |message| %>
+				        <li><%= message %></li>
+				      <% end %>
+				      </ul>
+				    </div>
+				  <% end %>
+
+				  <div class="form-group">
+				    <%= f.label :problem, 'Existe(m) problema(s) nessa interface?' %> <i class="tip glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Titulo da pergunta."></i><br>
+				    <%= f.radio_button(:problem, false) %> Não    
+				    <%= f.radio_button(:problem, true) %> Sim 
+				  </div>
+				  <div class="form-group">
+				    <%= f.label :level, 'Qual o nível do problema?' %> <i class="tip glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Titulo da pergunta."></i><br>
+				    <%= f.radio_button(:level, 0) %> 0 
+				    <%= f.radio_button(:level, 1) %> 1 
+				    <%= f.radio_button(:level, 2) %> 2 
+				    <%= f.radio_button(:level, 3) %> 3 
+				    <%= f.radio_button(:level, 4) %> 4
+				  </div>
+				  <div class="form-group">
+				    <%= f.label :comment, 'Comentários:' %> <i class="tip glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Titulo da pergunta."></i><br>
+				    <%= f.text_area :comment, :rows => '6', :class => 'form-control'%>
+				  </div>
+				  <%= f.hidden_field :question_id, :value => @pergunta.id %>
+				  <%= f.hidden_field :p, :value => @q_id %>
+
+				  <div class="form-group">
+				    <% if params['p'].to_i > 1 %>
+				      <%= link_to "<i class='glyphicon glyphicon-chevron-left'></i> Anterior".html_safe, edit_profile_project_tela_answer_path(:tela_id => @tela.id, :p => (@q_id - 1)), :class => "btn btn-primary pull-left" %>
+				    <% end %>
+
+				    <% if @p_total != @q_id %>
+				      <%= f.submit 'Próxima'.html_safe, :class => "btn btn-primary pull-right" %> 
+				    <% else %>
+				      <%= f.submit 'Finalizar'.html_safe, :class => "btn btn-primary pull-right" %> 
+				    <% end %>
+				  </div>
+				<% end %>
+		</div>
+	</div>
+
+	<div id="paleta-tela" class="col-md-8 text-center" style="padding-top:15px">
+		<%= image_tag @tela.tela.url, :class => 'img-responsive img-shadow'%>
+	</div>
+</div>
+

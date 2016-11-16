@@ -1,0 +1,49 @@
+<div class="jumbotron text-center">
+	<h1>UI Report</h1>
+	<p>O portal colaborativo de inpeção heurística</p>
+	<div class="container">
+		<% if user_signed_in? %>
+			<%= link_to "Começe a usar", profile_index_path, :class => "btn btn-lg btn-default btn-block" %>
+		<% else %>	
+			<%= link_to "Começe a usar", new_user_registration_path, :class => "btn btn-lg btn-default btn-block" %>
+		<% end %>	
+	</div>
+	<br/><br/>
+	<div class="well well-sm text-frontpage">
+		<h2>O que é?</h2>
+		<p>O UI Report é um portal colaborativo para inspeção heurística de interfaces.</p>
+		<p>Cadastre-se e compartilhe projetos de interface com outros profissionais. Avalie projetos com base em heurísticas apropriadas e ajude a melhorar a usabilidade de sistemas digitais.</p>
+		<p>Não perca mais tempo distribuindo formulários de papel! Convide avaliadores para seu projeto e ai é só gerar formulários amigáveis e que vão ao ponto do seu problema.</p>	
+		<hr>
+		<div class="container-fluid text-frontpage">
+			<h2>Como funciona:</h2>
+			<div class="row text-center">
+				<div class="col-md-3 well well-incolor">
+					<%= image_tag "newproject.png" %>
+
+					<p>Crie seus projetos</p>	
+				</div>
+				<div class="col-md-3 well well-incolor">
+					<%= image_tag "share.png" %>
+
+					<p>Convide avaliadores</p>	
+				</div>
+				<div class="col-md-3 well well-incolor">
+					<%= image_tag "avaliate.png" %>
+
+					<p>Avalie</p>	
+				</div>
+				<div class="col-md-3 well well-incolor">
+					<%= image_tag "results.png" %>
+
+					<p>Gere relatórios</p>	
+				</div>
+			</div>
+		</div>
+		<hr>
+		<h2>Saiba mais sobre como funciona em nosso</h2>
+		<%= link_to "Tutorial de uso", page_tutorial_path, :class => "btn btn-lg btn-default btn-block" %>
+	</div>
+
+	
+</div>

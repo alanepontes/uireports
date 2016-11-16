@@ -1,0 +1,112 @@
+<% titulo "Editar perfil" %>
+
+<% if current_user.admin? %>
+  <%= render "layouts/admin_menu" %>
+<% end %>
+ 
+<div class="container page-header text-center">
+  <h1>Editar perfil</h1>
+</div>
+
+<div class="container well">
+
+<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :multipart => true, :method => :put }) do |f| %>
+  <%= devise_error_messages! %>
+
+  <div class="text-center">
+    <% if current_user.avatar.exists? %>
+      <%= image_tag current_user.avatar.url(:medium), :class => 'img-circle img-thumbnail' %>
+    <% else %>
+      <%= image_tag("avatar_medium.png", :class => 'img-circle img-thumbnail') %>  
+    <% end %>
+  </div>
+
+<div class="form-group">
+  <%= f.label :avatar, "Avatar" %><br />
+  <%= f.file_field :avatar, :class => 'form-control' %>
+</div>
+
+<div class="form-group">
+  <div><%= f.label :about, "Sobre" %><br />
+  <%= f.text_area :about, :class => 'form-control', :maxlength => 255, :placeholder => 'Fale sobre você em 255 caracteres.' %></div>
+</div>
+
+<div class="form-group">
+  <%= f.label :name, "Nome" %><br />
+  <%= f.text_field :name, :class => 'form-control' %>
+</div>
+
+<div class="form-group">
+  <div><%= f.label :email, "E-Mail" %><br />
+  <%= f.email_field :email, :class => 'form-control' %></div>
+</div>
+
+<div class="form-group">
+  <div><%= f.label :age, "Sua idade" %><br />
+  <%= f.number_field :age, :class => 'form-control' %></div>
+</div>
+
+<div class="form-group">
+  <div><%= f.label :city, "Sua cidade" %><br />
+  <%= f.text_field :city, :class => 'form-control' %></div>
+</div>
+
+<div class="form-group">
+  <div><%= f.label :country, "País" %><br />
+  <%= f.text_field :country, :class => 'form-control' %></div>
+</div>
+
+<div class="form-group">
+  <div><%= f.label :work, "Onde você trabalha?" %> <i>(Não obrigatório)</i><br />
+  <%= f.text_field :work, :class => 'form-control' %></div>
+</div>
+
+<div class="form-group">
+  <div><%= f.label :study, "Onde você estuda?" %> <i>(Universidade, Escola, Curso... Não obrigatório)</i><br />
+  <%= f.text_field :study, :class => 'form-control' %></div>
+</div>
+
+<% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+  <div>Aguardando confirmação para: <%= resource.unconfirmed_email %></div>
+<% end %>
+
+<div class="form-group">
+  <div><%= f.label :password, "Senha" %> <i>(Deixe em branco se não quiser modificar)</i><br />
+  <%= f.password_field :password, :autocomplete => "off", :class => 'form-control' %></div>
+</div>
+
+<div class="form-group">
+  <div><%= f.label :password_confirmation, "Confirme sua senha" %><br />
+  <%= f.password_field :password_confirmation, :class => 'form-control' %></div>
+</div>
+
+<div class="form-group">
+  <div><%= f.label :current_password, "Senha atual" %> <i>(Digite sua senha atual para confirmar suas mudanças)</i><br />
+  <%= f.password_field :current_password, :class => 'form-control' %></div>
+</div>
+
+<div class="form-group text-center">
+  <% if current_user.admin? %><p class="alert alert-info"><span class="glyphicon glyphicon-tower"></span> Esse usuário é administrador</p><% end %>
+</div>
+
+<div class="form-group text-center">
+  <div><%= f.submit "Atualizar", :class => 'btn btn-lg btn-primary' %></div>
+<% end %>
+</div>
+
+<hr>
+
+<div class="text-center">
+<h3>Deletar conta</h3>
+
+<div class="form-group">
+<p><span class="glyphicon glyphicon-exclamation-sign"></span> Essa ação não poderá ser desfeita e todos os seus projetos serão perdidos.</br>
+<div class="form-group"> 
+  <%= link_to "<i class='glyphicon glyphicon-trash'></i> Deletar minha conta".html_safe, registration_path(resource_name), :data => { :confirm => "Tem certeza que deseja deletar sua conta?" }, :method => :delete, :class => 'btn btn-sm btn-danger' %></p>
+</div>  
+</div>
+</div>
+
+<%= link_to "Voltar", :back, :class => 'btn btn-default' %>
+
+</div>

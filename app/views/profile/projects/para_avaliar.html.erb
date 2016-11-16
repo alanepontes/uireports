@@ -1,0 +1,46 @@
+<% titulo "Projetos para avaliação" %>
+
+<div class="container-fluid">
+<div class="page-header">
+  <h1 class="title">Projetos para avaliação</h1>
+</div>
+
+<% if @avaliacao_projects[0].nil? %>
+  <div class="well well-sm well-incolor text-center">
+    <h3>Não há projetos para avaliar</h3>
+  </div>  
+<% else %>
+<div class="table-responsive text-center">
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th class="text-center">Rejeitar</th>
+      <th class="text-center col-md-5">Projeto</th>
+      <th class="text-center col-md-2">Usuário</th>
+      <th class="text-center col-md-3">Heurística</th>
+      <th class="text-center col-md-1">Avaliar</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @avaliacao_projects.each do |profile_project| %>
+      <tr>
+        <td><%= link_to '<i class="tip glyphicon glyphicon-remove-circle" data-toggle="tooltip" data-placement="top" title="Rejeitar pedido de avaliação"></i>'.html_safe, profile_project_invite_path(profile_project.project.user.id, profile_project.id), method: :delete, :class => "text-danger",data: { confirm: 'Tem certeza que deseja rejeitar esse pedido de avaliação?' } %></td>
+        <td><%= profile_project.project.name %></td>
+        <td><%= link_to profile_project.project.user.name, profile_index_path(:user => profile_project.project.user.id) %></td>
+        <td><%= image_tag profile_project.project.heuristic.device.icon.url(:thumb) %> <%= profile_project.project.heuristic.name %></td>
+        <td><%= link_to '<i class="tip glyphicon glyphicon-chevron-right" data-toggle="tooltip" data-placement="top" title="Ver o projeto para avaliar"></i>'.html_safe, profile_project_avaliar_path(profile_project.project_id) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+<% end %>
+
+<div class="text-center">
+<%= will_paginate @avaliacao_projects %>
+</div>
+
+</div>
+
+

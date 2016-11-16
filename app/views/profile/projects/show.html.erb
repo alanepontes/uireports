@@ -1,0 +1,95 @@
+<% titulo "Projeto: #{@profile_project.name}" %>
+
+<div class="container-default">
+
+<div class="page-header text-center">
+  <h1 class="title"><%= @profile_project.name %> <small>(<%= pluralize(@avaliac, 'avaliação', 'avaliações') %>)</small></h1>
+</div>
+
+<div class="alert alert-info text-center" style="padding-top:23px; margin-top:-20px">
+	<h4>Heurística: <%= @profile_project.heuristic.name %> <%= status_projeto(@profile_project.status).html_safe %></h4>
+  <strong><i class="glyphicon glyphicon-calendar"></i> Criado em: </strong> <%= @profile_project.created_at.strftime("%d/%m/%Y") %>
+</div>
+
+<% unless @profile_project.description.empty? %>
+<div class="page-header text-center">
+	<h3>Descrição</h3>
+</div>
+<p class="text-center">
+  	<%= @profile_project.description %>
+</p>
+<% end %>
+
+<div class="page-header text-center">
+	<h3>Telas</h3>
+</div>
+
+<div class="text-center well well-sm well-incolor">
+ <% if @telas.empty? %> 
+<p>Nenhuma tela no momento</p>
+ <%= link_to '<i class="glyphicon glyphicon-plus"></i> Adicione algumas telas nesse projeto'.html_safe, new_profile_project_tela_path(@profile_project), :class => 'btn btn-lg btn-primary' %>
+<% else %>
+  <div class="row">
+  <% @telas.each do |tela| %>
+  <div class="col-md-3">
+    <%= image_tag tela.tela.url(:medium), :class => "img-thumbnail" %><br>
+    <div class="tela-icons well well-sm">
+      <%= link_to '<i class="tela-ico glyphicon glyphicon-zoom-in"></i>'.html_safe, tela.tela.url, :class => 'well well-sm fancybox' %>
+      <%= link_to '<i class="tela-ico glyphicon glyphicon-pencil"></i>'.html_safe, edit_profile_project_tela_path(@profile_project.id, tela), :class => 'well well-sm' %>
+
+      <%= link_to '<i class="tela-ico glyphicon glyphicon-remove"></i>'.html_safe, profile_project_tela_path(@profile_project.id, tela), :method => :delete, data: { confirm: 'Tem certeza que deseja deletar essa tela?' }, :class => 'well well-sm' %>
+    </div>
+    
+  </div>  
+  <% end %>
+      <%= link_to '<i class="glyphicon glyphicon-plus"></i><br> Adicione mais telas'.html_safe, new_profile_project_tela_path(@profile_project), :class => 'col-md-3 btn btn-lg btn-primary' %>
+</div>
+<% end %>
+</div>
+
+<div class="row">
+<div class="page-header text-center">	
+	<h3>Avaliadores</h3>
+</div>
+<% if @avaliadores.empty? %>
+  <div class="text-center">
+    <p>Esse projeto ainda não tem avaliadores.</p> 
+    <p><%= link_to '<i class="flaticon flaticon-multiple25"></i> Convidar avaliadores'.html_safe, profile_project_convidar_path(@profile_project.id), :class => 'btn btn-lg btn-primary' %></p>
+  </div>
+<% else %>	
+<% @avaliadores.each do |avaliador| %>
+  <div class="col-md-4">
+  	<div class="well well-sm">
+      <div class="row"> 
+        <div class="col-md-4 text-center">
+      		<% if avaliador.user.avatar.exists? %>
+      			<%= image_tag avaliador.user.avatar.url(:thumb), :class => 'img-thumbnail' %>
+      		<% else %>
+      			<%= image_tag("avatar_thumb.png", :class => 'img-thumbnail') %>
+      		<% end %>
+        </div>
+        <div class="col-md-8"> 
+          <%= link_to '<i class="tip glyphicon glyphicon-remove-circle" data-toggle="tooltip" data-placement="top" title="Remover avaliador"></i>'.html_safe, profile_project_invite_path(avaliador.project_id, avaliador.id), method: :delete, :class => "delete-icon pull-right",data: { confirm: 'Tem certeza que deseja remover esse avaliador?' } %> 
+          <h4><%= link_to avaliador.user.name, profile_index_path(:user => avaliador.user.id) %></h4>
+      		<%= avaliador.user.email%><br>
+      		<span class="label label-<% if avaliador.status? %>success<% else %>danger<% end %>"><% if avaliador.status? %>Avaliou<% else %>Não avaliou<% end %></span>
+        </div>  
+    </div>
+  	</div>
+  </div>
+<% end %>
+  <div class="col-md-4">
+    <div class="well well-sm text-center">
+     <%= link_to ' <h3><i class="glyphicon glyphicon-plus"></i><p>Add mais avaliadores</p></h3>'.html_safe, profile_project_convidar_path(@profile_project.id), :class => '' %>
+    </div>
+  </div>
+</div>
+<% end %>
+
+<div class="well well-sm">
+	<%= link_to '<i class="glyphicon glyphicon-chevron-left"></i> Voltar'.html_safe, profile_projects_path, :class => 'btn btn-default' %>
+	<%= link_to '<i class="glyphicon glyphicon-edit"></i> Editar'.html_safe, edit_profile_project_path(@profile_project), :class => 'btn btn-primary' %>
+	<%= link_to '<i class="tip glyphicon glyphicon-trash" data-toggle="tooltip" data-placement="top" title="Deletar"></i> Deletar projeto'.html_safe, @profile_project, :class => 'btn btn-danger', method: :delete, data: { confirm: 'Tem certeza que deseja deletar esse projeto?' } %>
+</div>
+
+</div>

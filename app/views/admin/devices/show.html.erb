@@ -1,0 +1,20 @@
+<% titulo "Dispositivo: #{@admin_device.name}" %>
+
+<%= render "layouts/admin_menu" %>
+
+<div class="container-default">
+
+<div class="page-header text-center">
+  <h1><%= @admin_device.name %></h1>
+</div>
+
+<p class="text-center">
+  <%= image_tag @admin_device.icon.url %>
+</p>
+
+<div class="well well-sm">
+	<%= link_to '<i class="glyphicon glyphicon-edit"></i> Editar'.html_safe, edit_admin_device_path(@admin_device), :class => 'btn btn-primary' %>
+	<%= link_to '<i class="glyphicon glyphicon-chevron-left"></i> Voltar'.html_safe, admin_devices_path, :class => 'btn btn-default' %>
+</div>
+
+</div>

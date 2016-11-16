@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Problem:</strong>
+  <%= @profile_answer.problem %>
+</p>
+
+<p>
+  <strong>Level:</strong>
+  <%= @profile_answer.level %>
+</p>
+
+<p>
+  <strong>Comment:</strong>
+  <%= @profile_answer.comment %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @profile_answer.user_id %>
+</p>
+
+<p>
+  <strong>Question:</strong>
+  <%= @profile_answer.question_id %>
+</p>
+
+<p>
+  <strong>Tela:</strong>
+  <%= @profile_answer.tela_id %>
+</p>
+
+<%= link_to 'Edit', edit_profile_answer_path(@profile_answer) %> |
+<%= link_to 'Back', profile_answers_path %>

@@ -1,0 +1,23 @@
+<% titulo "Avaliar @project.name" %>
+
+<div class="container-fluid">
+
+<div class="page-header text-center">
+	<h1>Resultados para: <%= @project.name %><br/><small>Clique e veja os resultados para cada tela</small></h1>
+</div>
+
+<div class="text-center well well-sm well-incolor">
+ <% if @telas.empty? %> 
+<p>Nenhuma tela no momento</p>
+<% else %>
+  <div class="row">
+  <% @telas.each do |tela| %>
+  <div class="col-md-3">
+    <%= link_to (image_tag tela.tela.url(:medium), :class => "img-thumbnail"), profile_project_tela_relatorio_path(:tela_id => tela.id) %><br>
+  </div>  
+  <% end %>
+</div>
+<% end %>
+</div>
+
+</div>

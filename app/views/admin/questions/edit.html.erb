@@ -1,0 +1,40 @@
+<% titulo "Editar pergunta" %>
+
+<%= render "layouts/admin_menu" %>
+
+<div class="container-default">
+
+<div class="page-header text-center">
+	<h1>Editar pergunta</h1>
+</div>
+
+<%= form_for [@heuristic, @admin_question],:url => admin_heuristic_question_path do |f| %>
+  <% if @admin_question.errors.any? %>
+    <div class="alert alert-danger">
+      <h4><i class="glyphicon glyphicon-remove-sign"></i> Erro ao salvar pergunta:</h4>
+
+      <ul class="list-unstyled">
+      <% @admin_question.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :name, "Pergunta" %> <i class="tip glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Titulo da pergunta."></i><br>
+    <%= f.text_field :name, :class => 'form-control' %>
+  </div>
+  <div class="form-group">
+    <%= f.label :description, "Descrição" %> <i class="tip glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Uma breve descrição/explicação da pergunta (se necessário)."></i><br>
+    <%= f.text_area :description, :rows => '12', :class => 'form-control' %>
+  </div>
+  <div class="form-group">
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+  </div>
+<% end %>
+<div class="well well-sm">
+<%= link_to '<i class="glyphicon glyphicon-chevron-left"></i> Voltar'.html_safe, admin_heuristic_questions_path, :class => 'btn btn-default' %>
+</div>
+
+</div>

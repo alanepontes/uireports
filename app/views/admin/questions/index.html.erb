@@ -1,0 +1,45 @@
+<% titulo "Perguntas para heurística #{@heuristic.name}" %>
+
+<%= render "layouts/admin_menu" %>
+
+<div class="container-default">
+<div class="page-header">
+  <h1>Perguntas para heurística <%= @heuristic.name %></h1>
+</div>
+
+<div class="well well-sm">
+  <%= link_to '<i class="glyphicon glyphicon-asterisk"></i> Nova pergunta'.html_safe, new_admin_heuristic_question_path, :class => 'btn btn-primary' %>
+  <%= link_to '<i class="glyphicon glyphicon-chevron-left"></i> Voltar para lista de heurísticas'.html_safe, admin_heuristics_path, :class => 'btn btn-default' %>
+</div>
+
+<div class="table-responsive text-center">
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th class="text-center col-md-1">#</th>
+      <th class="text-center">Pergunta</th>
+      <th class="text-center">Descrição</th>
+      <th class="col-md-1"></th>
+      <th class="col-md-1"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @admin_questions.each do |admin_question| %>
+      <tr>
+        <td><%= admin_question.position %></td>
+        <td><%= link_to admin_question.name, admin_heuristic_question_path(@heuristic, admin_question) %></td>
+        <td><%= admin_question.description %></td>
+        <td><%= link_to '<i class="tip glyphicon glyphicon-pencil" data-toggle="tooltip" data-placement="top" title="Editar"></i>'.html_safe, edit_admin_heuristic_question_path(@heuristic, admin_question) %></td>
+        <td><%= link_to '<i class="tip glyphicon glyphicon-trash" data-toggle="tooltip" data-placement="top" title="Deletar"></i>'.html_safe, admin_heuristic_question_path(@heuristic, admin_question), method: :delete, data: { confirm: 'Tem certeza que deseja deletar essa pergunta?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+
+<div class="text-center">
+
+</div>
+
+</div>

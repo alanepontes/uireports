@@ -1,0 +1,25 @@
+<%= form_for([:project, @tela], :url => profile_project_telas_path, :html => { :multipart => true }) do |f| %>
+  <% if @tela.errors.any? %>
+    <div class="alert alert-danger">
+      <h4><i class="glyphicon glyphicon-remove-sign"></i> Erro ao salvar tela:</h4>
+
+      <ul class="list-unstyled">
+      <% @tela.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :tela %> <i class="tip glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Tela do seu projeto para avaliação."></i><br>
+    <%= f.file_field :tela, :class => 'form-control' %>
+  </div>
+  <div class="form-group">
+    <%= f.label :description, "Descrição" %> <i class="tip glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Adicione uma descrição a essa tela para ajudar o entendimento dos avaliadores"></i><br>
+    <%= f.text_area :description, :rows => '6', :class => 'form-control' %>
+  </div>
+  <div class="form-group">
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+  </div>
+<% end %>

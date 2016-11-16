@@ -1,0 +1,63 @@
+<% titulo "Meus projetos" %>
+
+<div class="container-fluid">
+<div class="page-header">
+  <h1 class="title">Meus projetos</h1>
+</div>
+
+<% unless @profile_projects[0].nil? %>
+<div class="table-responsive text-center">
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th class="text-center col-md-1">Dispositivo</th>
+      <th class="text-center col-md-7">Projeto (Detalhes)</th>
+      <th class="text-center col-md-1">Avaliações</th>
+      <th class="text-center col-md-1">Editar</th>
+      <th class="text-center col-md-1">Convidar</th>
+      <th class="text-center col-md-1">Resultado</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @profile_projects.each do |profile_project| %>
+      <tr>
+        <td><%= image_tag profile_project.heuristic.device.icon.url(:thumb) %></td>
+        <td><%= link_to profile_project.name, profile_project %> <%= status_projeto(profile_project.status).html_safe %></td>
+        <td><%= profile_project.num_eval %></td>
+        <td><%= link_to '<i class="tip glyphicon glyphicon-pencil" data-toggle="tooltip" data-placement="top" title="Editar"></i>'.html_safe, edit_profile_project_path(profile_project) %></td>
+        <td>
+          <% if profile_project.status == 1 %>
+            <%= link_to '<i class="tip flaticon flaticon-multiple25" data-toggle="tooltip" data-placement="top" title="Convidar avaliadores"></i>'.html_safe, profile_project_convidar_path(profile_project.id) %>
+          <% else %>
+            <i class="tip flaticon flaticon-multiple25" data-toggle="tooltip" data-placement="top" title="Você não pode convidar avaliadores para um projeto inativo"></i>
+          <% end %>
+        </td>
+        <td>
+          <% if profile_project.num_eval != 0 %>
+            <%= link_to '<i class="tip flaticon flaticon-pie30" data-toggle="tooltip" data-placement="top" title="Ver resultdos de avaliação"></i>'.html_safe, profile_project_resultado_path(profile_project.id) %></td>
+          <% else %>
+            <i class="tip flaticon flaticon-pie30" data-toggle="tooltip" data-placement="top" title="Ainda não há avaliações para mostrar"></i>
+          <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+<% else %>
+<div class="text-center">
+  <h3>Você ainda não tem nenhum projeto.</h3>
+  <p>Crie um novo projeto, importe suas telas e convide pessoas para avaliá-las.</p>
+  <div class="well well-sm well-incolor text-center">
+    <%= link_to '<i class="glyphicon glyphicon-asterisk"></i> Comece criando um novo Projeto'.html_safe, new_profile_project_path, :class => 'btn btn-lg btn-primary' %>
+  </div>
+</div>
+<% end %>
+
+<div class="text-center">
+<%= will_paginate @profile_projects %>
+</div>
+
+</div>
+
+

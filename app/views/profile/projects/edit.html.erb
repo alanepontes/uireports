@@ -1,0 +1,15 @@
+<% titulo "Editar projeto" %>
+
+<div class="container-default">
+
+<div class="page-header text-center">
+	<h1 class="title">Editar projeto: <%= @project.name %></h1>
+</div>
+
+<%= render 'form' %>
+
+<div class="well well-sm">
+<%= link_to '<i class="glyphicon glyphicon-chevron-left"></i> Voltar'.html_safe, profile_projects_path, :class => 'btn btn-default' %>
+</div>
+
+</div>

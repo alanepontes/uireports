@@ -1,0 +1,41 @@
+<%= form_for([@profile_answer], :url => profile_project_tela_answers_path) do |f| %>
+  <% if @profile_answer.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@profile_answer.errors.count, "error") %> prohibited this profile_answer from being saved:</h2>
+
+      <ul>
+      <% @profile_answer.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :problem, 'Existe(m) problema(s) nessa interface?' %> <i class="tip glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Esse projeto possui o problema mencionado na pergunta?"></i><br>
+    <%= f.radio_button(:problem, false) %> Não    
+    <%= f.radio_button(:problem, true) %> Sim 
+  </div>
+  <div class="form-group">
+    <%= f.label :level, 'Qual o nível do problema?' %> <i class="tip glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Qual a gravidade do problema?"></i><br>
+    <%= f.radio_button(:level, 0) %> <i class="tip" data-toggle="tooltip" data-placement="top" title="Não concordo que este seja um problema de usabilidade.">0</i> 
+    <%= f.radio_button(:level, 1) %> <i class="tip" data-toggle="tooltip" data-placement="top" title="Problema cosmético: não precisa ser consertado a menos que haja tempo extra no projeto.">1</i>  
+    <%= f.radio_button(:level, 2) %> <i class="tip" data-toggle="tooltip" data-placement="top" title="Problema de usabilidade de pequeno impacto: a prioridade deste conserto deve ser baixa.">2</i> 
+    <%= f.radio_button(:level, 3) %> <i class="tip" data-toggle="tooltip" data-placement="top" title="Problema de usabilidade de grande impacto: importante consertar deve ser dado alta prioridade a este conserto.">3</i>
+    <%= f.radio_button(:level, 4) %> <i class="tip" data-toggle="tooltip" data-placement="top" title="Catástrofe de usabilidade: este problema deve ser consertado antes que o produto seja lançado. ">4</i> 
+  </div>
+  <div class="form-group">
+    <%= f.label :comment, 'Comentários:' %> <i class="tip glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Comentário livre para dicas, detalhes e indicação precisa do(s) problema(s)"></i><br>
+    <%= f.text_area :comment, :rows => '6', :class => 'form-control'%>
+  </div>
+  <%= f.hidden_field :question_id, :value => @pergunta.id %>
+  <%= f.hidden_field :p, :value => @q_id %>
+
+  <div class="form-group">
+    <% if @p_total != @q_id %>
+      <%= f.submit 'Próxima'.html_safe, :class => "btn btn-primary pull-right" %> 
+    <% else %>
+      <%= f.submit 'Finalizar'.html_safe, :class => "btn btn-primary pull-right" %> 
+    <% end %>
+  </div>
+<% end %>

@@ -1,0 +1,71 @@
+<% titulo "Meus projetos" %>
+
+<div class="container-fluid">
+<div class="page-header">
+  <h1 class="title">Convidar avaliadores para <%= @project.name %></h1>
+</div>
+
+<div class="well well-sm well-incolor">
+  <%= form_tag profile_project_convidar_path, method: :get, :class => 'form-inline' do %>
+    <div class="form-group">
+      <%= text_field_tag :q, params[:q], :class => 'form-control col-md-9 input-lg', :placeholder => 'Buscar avaliador' %>
+    </div>
+    <%= submit_tag "Buscar", :class => 'btn btn-lg btn-primary' %>
+    <span class="help-block">Você pode buscar por nome, e-mail ou parte deles.</span>
+  <% end %>
+</div>
+
+<hr>
+
+<div class="row">
+<% count = 0 %>  
+<% @users.each do |user| %>
+  <div class="col-md-4">
+  	<div class="well well-sm">
+      <div class="row"> 
+        <div class="col-md-4 text-center">
+      		<% if user.avatar.exists? %>
+            <%= image_tag user.avatar.url(:thumb), :class => 'img-thumbnail' %>
+      		<% else %>
+      			<%= image_tag("avatar_thumb.png", :class => 'img-thumbnail') %>
+      		<% end %>
+        </div>
+        <div class="col-md-8">  
+          <h4><%= link_to user.name, profile_index_path(:user => user.id) %>
+            <% if user.convidado(user.id, @project.id) %> 
+              <span class="label label-warning">Convidado</span> 
+            <% else %> 
+            <%= link_to 'Convidar', {:controller => "profile/invites", :action => "create", :email => user.email, :user_id => user.id}, :method => :post, :class => 'label label-success' %> 
+            <% end %>
+          </h4>
+      		<%= user.email %><br>
+            <div id="star-media-<%= user.id %>" class="text-center tip" data-toggle="tooltip" data-placement="top"></div>
+        </div>  
+    </div>
+  	</div>
+  </div>
+
+    <script>
+    $('#star-media-<%= user.id %>').raty({
+      readOnly: true,
+      noRatedMsg: 'Não avaliado!',
+      hints: ['Ruim', 'Pobre', 'Regular', 'Bom', 'Ótimo'],
+      score: <%= average_rating(@users[count].id) %>,
+      path: '/assets'
+    });
+  </script>
+  <% count = count + 1 %>
+<% end %>
+</div>
+
+<div class="text-center">
+<%= will_paginate @users %>
+</div>
+
+<div class="well well-sm">
+<%= link_to '<i class="glyphicon glyphicon-chevron-left"></i> Voltar'.html_safe, profile_projects_path, :class => 'btn btn-default' %>
+</div>
+
+</div>
+
+

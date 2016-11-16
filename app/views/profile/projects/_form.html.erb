@@ -1,0 +1,34 @@
+<%= form_for(@profile_project) do |f| %>
+  <% if @profile_project.errors.any? %>
+    <div class="alert alert-danger">
+      <h4><i class="glyphicon glyphicon-remove-sign"></i> Erro ao salvar projeto:</h4>
+
+      <ul class="list-unstyled">
+      <% @profile_project.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :name, "Nome" %> <i class="tip glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Título do projeto."></i><br>
+    <%= f.text_field :name, :class => 'form-control' %>
+  </div>
+  <div class="form-group">
+    <%= f.label :description, "Descrição" %> <i class="tip glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Uma breve descrição sobre esse projeto. Qual a finalidade dele e a funcionalidade básica."></i><br>
+    <%= f.text_area :description, :rows => '12', :class => 'form-control' %>
+  </div>
+  <div class="form-group">
+    <%= f.label :heuristic_id, "Heuristica" %> <i class="tip glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Qual heurística deve ser usada para avaliar esse projeto?"></i><br>
+    <%= f.collection_select(:heuristic_id, Admin::Heuristic.order(:name), :id, :name, {:prompt => 'Selecione a heurística para esse projeto'}, :class => 'form-control') %>
+  </div>
+  <div class="form-group">
+    <%= f.label :status, "Status" %> <b>do projeto</b> <i class="tip glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Projeto disponível ou não para avaliação."></i><br>
+    <%= f.check_box :status, :class => 'switch' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+  </div>
+<% end %>
